@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body>
+
+<h3>Cadastro de usuario (Spring Boot REST API CRUD completo)</h3>
+
+<form action="" id="formCadastroUser">
+ 
+ <div class="form-group">
+    <label for="id">ID</label>
+    <input type="text" class="form-control" id="id" readonly="readonly">
+  </div>
+  
+   <div class="form-group">
+    <label for="id">Nome do usuário</label>
+    <input type="text" class="form-control" id="nome" placeholder="Informe o nome">
+  </div>
+  
+   <div class="form-group">
+    <label for="idade">Idade</label>
+    <input type="number" class="form-control" id="idade">
+  </div>
+  
+  <div class="form-group">
+    <label for="rg">RG</label>
+    <input type="number" class="form-control" id="rg">
+  </div>
+  
+  <div class="form-group">
+    <label for="cpf">CPF</label>
+    <input type="number" class="form-control" id="cpf">
+  </div>
+  
+</form>
+
+<button type="button" class="btn btn-primary" onclick="salvarUsuario()">Salvar</button>
+<button type="button" class="btn btn-secondary" onclick="document.getElementById('formCadastroUser').reset();">Novo</button>
+<button type="button" class="btn btn-danger" onclick="pesquisaUser()">Pesquisar</button>
+<button type="button" class="btn btn-danger" onclick="deleteUser('+response[i].id+')">Delete</button>
+
+<table class="table" id="tabelaresultados">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Nome</th>
+      <th scope="col">RG</th>
+      <th scope="col">CPF</th>
+      <th scope="col">Editar</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+  </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+function deleteUser(id){
+	
+	$.ajax({
+		method: "DELETE",
+		url: "delete",
+		data: "iduser=" + id,
+		success: function(response) {
+			
+			alert(response);
+		}
+	}).fail(function (xhr, status, errorThrown){
+		alert("Erro ao deletar usuario: " + xhr.responseText);
+	});
+}
+
+function pesquisaUser(){
+	
+}
+
+function salvarUsuario(){
+	
+	var id = $("#id").val();
+	var nome = $("#nome").val();
+	var idade = $("#idade").val();
+	var rg = $("#rg").val();
+	var cpf = $("#cpf").val();
+	
+	$.ajax({
+		method: "POST",
+		url: "salvar",
+		data: JSON.stringify({id :id, nome : nome, idade : idade, rg : rg, cpf : cpf}),
+		contentType: "application/json; charset-uft-8",
+		success: function(response) {
+			
+			$("#id").val(response.id);
+			alert("Salvo com sucesso!");
+		}
+	}).fail(function (xhr, status, errorThrown){
+		alert("Erro ao salvar usuario: " + xhr.responseText);
+	});
+}
+</script>
+</body>
+
+</html>
